@@ -1,0 +1,170 @@
+.row {
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+    margin: 0 -16px;
+  }
+  
+  .col-25 {
+    border: 1px solid lightgrey;
+    /* border-radius: 3px; */
+    padding: 5px 20px 15px 20px;
+    /* -ms-flex: 25%; //IE10  */
+    /* flex: 25%; */
+  } 
+  /*
+  .col-50 {
+    -ms-flex: 50%; // IE10 
+    flex: 50%;
+  }
+  
+  .col-75 {
+    -ms-flex: 75%; // IE10 
+    flex: 75%;
+  }
+  
+  .col-25,
+  .col-50,
+  .col-75 {
+    padding: 0 16px;
+  }
+  */
+  
+  .container-cart {
+    background-color: #ffffff;
+    padding: 5px 20px 15px 20px;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+  }
+  
+  input[type=text] {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  input[type=email] {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  label {
+    margin-bottom: 10px;
+    display: block;
+  }
+  
+  .icon-container {
+    margin-bottom: 20px;
+    padding: 7px 0;
+    font-size: 24px;
+  }
+  
+  .btn-checkout {
+    background-color: white;
+    border-color: grey;
+    color: black;
+    padding: 12px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .btn-checkout:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  span.price {
+    /* background-color: #45a049; */
+    float: right;
+    color: grey;
+    
+  }
+
+  .product-title {
+    color: black;
+    /* font-size: 10px; */
+    /* padding: 40px; */
+  }
+  #product-list {
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
+  @media (max-width: 800px) {
+    .row {
+      flex-direction: column-reverse;
+    }
+    .col-25 {
+      margin-bottom: 20px;
+    }
+  }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+@media (min-width: 992px) {
+  .dropdown-menu {
+      left: auto;
+      right: 0;
+  }
+}
+
+/* För små skärmar (mobil) */
+@media (max-width: 991px) {
+  .dropdown-menu {
+      left: 0;
+      right: auto;
+  }
+}
+
+
+.dropdown-item {
+  max-width: 200px;  /* Ange maxbredden på dropdown-menyn */
+  white-space: nowrap;  /* Förhindra radbrytning */
+  overflow: hidden;  /* Dölj överskridande text */
+  text-overflow: ellipsis;  /* Lägg till ellipsis (...) till slutet av klippt text */
+  margin: 0;  /* Återställ marginaler */
+  padding: 0;  /* Återställ padding */
+}
+
+.outer-div {
+  background-color: white;  /* Sätt bakgrundsfärgen till vit */
+  border: 1px solid #ddd;  /* Lägg till en kant runt diven */
+  padding: 20px;  /* Lägg till lite utrymme runt innehållet i diven */
+    display: flex;  /* Använd flexbox för att positionera barnen */
+    justify-content: start;  /* Starta positioneringen av barnen från början (vänster) */
+}
+
+.quantity-input {
+  width: 40px;
+  height: 40px;
+}
+.close-button {
+  width: 20px; /* Ändra till önskad storlek */
+  height: 20px; /* Ändra till önskad storlek */
+  fill: lightgray; /* Gör knappen ljusgrå */
+  transition: all 0.3s ease; /* Lägger till en mjuk övergångseffekt */
+  opacity: 0.5; /* Gör ikonen halvtransparent */
+  filter: grayscale(1); /* Lägg till ett grått lager över ikonen */
+  transition: all 0.3s ease; /* Lägger till en mjuk övergångseffekt */
+}
+
+.close-button:hover {
+  transform: scale(1.1);
+  opacity: 1; /* Gör ikonen helt opak när du hovrar över den */
+  filter: none; /* Ta bort det gråa lagret när du hovrar över knappen */
+}
+
+.close-button:active {
+  transform: scale(0.9); /* Minskar storleken på knappen när du klickar på den */
+}
