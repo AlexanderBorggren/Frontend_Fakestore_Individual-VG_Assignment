@@ -109,9 +109,6 @@
     }
   }
 
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
 @media (min-width: 992px) {
   .dropdown-menu {
       left: auto;
@@ -167,4 +164,17 @@
 
 .close-button:active {
   transform: scale(0.9); /* Minskar storleken på knappen när du klickar på den */
+}
+
+#theNavBar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+body, html, .container, nav {
+  overflow: visible; /* Se till att overflow är satt till visible */
+}
+#dropdownData {
+  max-height: 50vh;  /* Ange maxhöjden till 50% av skärmens höjd */
+  overflow-y: auto;  /* Tillåt vertikal scrolling */
 }
