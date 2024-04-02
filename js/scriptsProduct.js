@@ -1,10 +1,14 @@
 
- window.onload = function() {
+window.addEventListener('load', function() {
+        console.log("loading window");
+    
         // Hämta den valda produkten från localStorage
         let product = JSON.parse(localStorage.getItem('sendToProducts'));
+        console.log(product);
 
         // Selektor i products.html
-        let productContainer = document.querySelector('.row.gx-4.gx-lg-5.align-items-center');
+        let productContainer = document.querySelector('#injectProduct');
+        console.log(productContainer);
 
         // Skapa nya element
         let colImg = document.createElement('div');
@@ -152,4 +156,4 @@
         } else {
             console.log('Inga relaterade produkter hittades i samma kategori som den valda produkten.');
         }   
-    };
+    });

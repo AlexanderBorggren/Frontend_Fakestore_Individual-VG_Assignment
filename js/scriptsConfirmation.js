@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener('load', function() {
 
     let selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
 
@@ -61,7 +61,7 @@ row2.appendChild(totalPriceHead);
 row2.appendChild(totalPriceTitle);
 totalPrice.appendChild(boldTotalPrice);
 totalPriceTitle.appendChild(totalPrice);
-};
+});
 
 
 function orderNumberRNG() {

@@ -1,4 +1,4 @@
-window.onload = function() {
+window.addEventListener('load', function() {
     // Hämta den valda produkten från localStorage
     let selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
 
@@ -46,4 +46,4 @@ window.onload = function() {
     row.appendChild(totalPriceTitle);
     totalPrice.appendChild(boldTotalPrice);
     totalPriceTitle.appendChild(totalPrice);
-};
+});

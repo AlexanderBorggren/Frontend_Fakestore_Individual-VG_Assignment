@@ -147,8 +147,8 @@
   height: 40px;
 }
 .close-button {
-  width: 20px; /* Ändra till önskad storlek */
-  height: 20px; /* Ändra till önskad storlek */
+  width: 40px; /* Ändra till önskad storlek */
+  height: 40px; /* Ändra till önskad storlek */
   fill: lightgray; /* Gör knappen ljusgrå */
   transition: all 0.3s ease; /* Lägger till en mjuk övergångseffekt */
   opacity: 0.5; /* Gör ikonen halvtransparent */
@@ -175,6 +175,8 @@ body, html, .container, nav {
   overflow: visible; /* Se till att overflow är satt till visible */
 }
 #dropdownData {
-  max-height: 50vh;  /* Ange maxhöjden till 50% av skärmens höjd */
+  max-height: 50vh;
+  width: 300px;  /* Ange maxhöjden till 50% av skärmens höjd */
+  overflow-x: block;  /* Tillåt vertikal scrolling */
   overflow-y: auto;  /* Tillåt vertikal scrolling */
 }

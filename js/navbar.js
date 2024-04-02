@@ -18,7 +18,7 @@ function createNavbar() {
                                 Cart
                                 <span id="productLength" class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end" id="dropdownData" aria-labelledby="cartDropdown">
+                            <ul class="dropdown-menu dropdown-menu-end col-12" id="dropdownData" aria-labelledby="cartDropdown">
                                <!-- Inject cart items here-->
                             </ul>
                         </div>
