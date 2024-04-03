@@ -1,23 +1,19 @@
 window.addEventListener('load', function() {
-    // Hämta alla produkter från localStorage
     let allProducts = JSON.parse(localStorage.getItem('allProductsJSON'));
 
-    // Skapa ett element för att visa den totala summan
     let totalPriceSum = 0;
     let totalProductsCount = 0;
 
-    // Iterera över alla produkter
     allProducts.forEach(selectedProduct => {
         totalProductsCount += selectedProduct.quantity;
         let productTotalPrice = selectedProduct.price * selectedProduct.quantity;
         totalPriceSum += productTotalPrice;
-        console.log(totalProductsCount);
     
         let linkA = document.createElement('a');
         let productImage = document.createElement('img');
         let title = document.createElement('p');
         let price = document.createElement('span');
-        let quantity = document.createElement('span');
+        let quantityInput = document.createElement('input');
         let productTotal = document.createElement('span');
         let br = this.document.createElement('br');
     
@@ -35,9 +31,29 @@ window.addEventListener('load', function() {
     
         title.textContent = selectedProduct.title;
         price.textContent = '$' + productTotalPrice.toFixed(2); 
-        quantity.textContent = selectedProduct.quantity + 'x';
-        quantity.style.fontSize = '12px';
-        quantity.style.fontWeight = 'bold';
+        quantityInput.style.fontSize = '16px';
+        quantityInput.type = 'number';
+        quantityInput.min = '1';
+        quantityInput.value = selectedProduct.quantity;
+        quantityInput.className = 'quantity-input';
+
+        quantityInput.onchange = function () {
+            // Uppdatera kvantiteten av produkten i allProducts array
+            selectedProduct.quantity = parseInt (this.value);
+            if (quantityInput.value === 0) {
+              removeItem (product);
+            }
+            // Uppdatera localStorage
+            localStorage.setItem (
+              'allProductsJSON',
+              JSON.stringify (allProducts)
+            );
+            // Uppdatera kundkorgen
+            updateCartCount();
+            loadCart();
+            updateCart();
+          };
+
         productTotal.textContent = '$' + selectedProduct.price.toFixed(2);
         productTotal.style.fontSize = '12px';
         productTotal.style.fontWeight = 'normal';
@@ -46,14 +62,34 @@ window.addEventListener('load', function() {
         let row2 = document.querySelector('#start-list');
         row2.appendChild(productImage);
         row2.appendChild(title);
+        row2.appendChild(quantityInput);
         title.appendChild(linkA);
         title.appendChild(br);
         title.appendChild(price);
-        row2.appendChild(quantity);
+        
         title.appendChild(productTotal);
 
         let hr = document.createElement('hr');
         row2.appendChild(hr);
+
+        function updateCart() {
+            // Uppdatera totalpriset och produktantalet
+            totalPriceSum = allProducts.reduce((sum, product) => sum + product.price * product.quantity, 0);
+            totalProductsCount = allProducts.reduce((sum, product) => sum + product.quantity, 0);
+            boldTotalPrice.textContent = '$' + totalPriceSum.toFixed(2);
+            totalProductsCountElement.textContent = totalProductsCount.toString();
+            price.textContent = '$' + (selectedProduct.price * selectedProduct.quantity).toFixed(2);
+    
+        };
+
+        function removeItem(productToRemove) {
+            // Ta bort produkten från allProducts array
+            allProducts = allProducts.filter(product => product !== productToRemove);
+            // Uppdatera localStorage
+            localStorage.setItem('allProductsJSON', JSON.stringify(allProducts));
+            // Uppdatera kundvagnen
+            updateCart();
+        }
     });
 
     let totalPrice = document.createElement('span');
@@ -77,5 +113,7 @@ window.addEventListener('load', function() {
     let totalProductsCountElement = document.querySelector('#totalProductsCount');
     let totalProductsCountText = document.createTextNode(totalProductsCount.toString());
     totalProductsCountElement.textContent = totalProductsCountText.nodeValue;
+    
 });
+
 
