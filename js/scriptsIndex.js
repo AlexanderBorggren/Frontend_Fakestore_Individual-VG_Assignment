@@ -97,8 +97,7 @@ fetchProducts(products => {
             button.addEventListener('click', function(event) {
                 event.stopPropagation();
                 event.preventDefault();
-                addToCart(product);
-                console.log("Added to cart")
+                addToCart(product, 1);
             });
 
             // Bygg upp HTML-strukturen

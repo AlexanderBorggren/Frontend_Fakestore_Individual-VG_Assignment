@@ -1,14 +1,12 @@
 
 window.addEventListener('load', function() {
-        console.log("loading window");
+        
     
         // Hämta den valda produkten från localStorage
         let product = JSON.parse(localStorage.getItem('sendToProducts'));
-        console.log(product);
-
+       
         // Selektor i products.html
         let productContainer = document.querySelector('#injectProduct');
-        console.log(productContainer);
 
         // Skapa nya element
         let colImg = document.createElement('div');
@@ -42,23 +40,30 @@ window.addEventListener('load', function() {
         input.id = 'inputQuantity';
         input.type = 'num';
         input.value = '1';
+        input.min = '1'; // Sätt minsta tillåtna värde
         input.style.maxWidth = '3rem'; //inline css
         button.className = 'btn btn-outline-dark flex-shrink-0';
         button.type = 'button';
         button.innerHTML = '<i class="bi-cart-fill me-1"></i>Add to cart';
 
+        input.addEventListener('change', function(event) {
+            let quantity = parseInt(event.target.value); // Hämta det nya värdet från input-fältet
+            if (isNaN(quantity) || quantity < 1) {
+                // Om det nya värdet inte är ett giltigt nummer eller mindre än 1, återställ det till 1
+                event.target.value = 1;
+            } else {
+                // Uppdatera produktens kvantitet
+                product.quantity = quantity;
+            }
+        });        
+
         button.addEventListener('click', function(event) {
             event.stopPropagation();
             event.preventDefault();
-    
-            let selectedProduct = {
-                id: product.id,
-                title: product.title,
-                price: product.price,
-            };
         
-            localStorage.setItem('selectedProduct', JSON.stringify(product));
-            window.open('cart.html', '_self');
+            let quantity = parseInt(input.value); // Hämta det aktuella värdet från input-fältet
+        
+            addToCart(product, quantity); // Lägg till den uppdaterade produkten till kundkorgen
         });
 
         // Bygg upp HTML-strukturen
@@ -116,8 +121,14 @@ window.addEventListener('load', function() {
             cardFooter.className = 'card-footer p-4 pt-0 border-top-0 bg-transparent';
             buttonDiv.className = 'text-center';
             button.className = 'btn btn-outline-dark mt-auto';
-            button.href = '#';
             button.textContent = 'Add to cart';
+
+            button.addEventListener('click', function(event) {
+                event.stopPropagation();
+                event.preventDefault();
+            
+                addToCart(product, 1); // Lägg till den uppdaterade produkten till kundkorgen
+            });
         
             // Bygg upp HTML-strukturen
             textCenter.appendChild(title);

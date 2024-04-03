@@ -3,11 +3,11 @@ let allProducts = JSON.parse (localStorage.allProductsJSON || '[]');
 let row = document.querySelector ('#productLength');
 row.textContent = allProducts.length;
 
-function addToCart (product) {
+function addToCart (product, quantity) {
   let existingProduct = allProducts.find (p => p.id === product.id);
   if (existingProduct) {
     // Om produkten redan finns i kundkorgen, öka kvantiteten
-    existingProduct.quantity++;
+    existingProduct.quantity += quantity;
   } else {
     let selectedProduct = {
       id: product.id,
@@ -15,15 +15,14 @@ function addToCart (product) {
       price: product.price,
       image: product.image,
       description: product.description,
-      quantity: 1,
+      quantity: quantity,
     };
     allProducts.push (selectedProduct);
   }
-  console.log (allProducts); //LOGG
   localStorage.setItem ('allProductsJSON', JSON.stringify (allProducts));
 
-  updateCartCount();
-  loadCart();
+  updateCartCount ();
+  loadCart ();
 
   //FOR MOBILE VERSION
   let navbarToggler = document.querySelector ('.navbar-toggler');
@@ -41,8 +40,8 @@ function addToCart (product) {
 function loadCart () {
   if (allProducts.length > 0) {
     let dropdownData = document.querySelector ('#dropdownData');
-    // Rensa dropdownData innan du lägger till nya produkter
     if (dropdownData) {
+      // Rensa dropdownData innan du lägger till nya produkter
       dropdownData.innerHTML = '';
 
       let totalPrice = 0;
@@ -54,8 +53,8 @@ function loadCart () {
         let title = document.createElement ('h4');
         let price = document.createElement ('p');
         let closeButton = document.createElement ('img');
-        let quantityInput = document.createElement ('input'); // Skapa en ny input för kvantitet
-        let actionDiv = document.createElement ('div'); // Skapa en ny div för close-knappen och kvantitetsinputen
+        let quantityInput = document.createElement ('input');
+        let actionDiv = document.createElement ('div');
 
         outerDiv.className = 'outer-div col-12 d-flex';
         outerDiv.className = 'outer-div col-12';
@@ -64,30 +63,36 @@ function loadCart () {
         title.textContent = product.title.length > 35
           ? product.title.substring (0, 35) + '...'
           : product.title;
-        price.textContent = '$' + product.price;
-        closeButton.src = 'assets/close.svg'; // Ange källan till din SVG-ikon
+        price.textContent =
+          '$' +
+          product.price +
+          '    x ' +
+          product.quantity +
+          '  =  $' +
+          product.quantity * product.price;
+        closeButton.src = 'assets/close.svg';
         closeButton.className = 'close-button';
-        closeButton.onclick = removeItem(product);
-        quantityInput.type = 'number'; // Sätt input-typen till number
-        quantityInput.min = '0'; // Sätt minsta tillåtna värde
-        quantityInput.value = product.quantity; // Sätt ett initialt värde
-        quantityInput.className = 'quantity-input'; // Lägg till col-1 till kvantitetsinputen
+        closeButton.onclick = removeItem (product);
+        quantityInput.type = 'number';
+        quantityInput.min = '1';
+        quantityInput.value = product.quantity;
+        quantityInput.className = 'quantity-input';
         actionDiv.className = 'action-div d-flex flex-column align-items-end';
 
         quantityInput.onchange = function () {
           // Uppdatera kvantiteten av produkten i allProducts array
           product.quantity = parseInt (this.value);
           if (quantityInput.value === 0) {
-            removeItem(product);
-        }
+            removeItem (product);
+          }
           // Uppdatera localStorage
           localStorage.setItem (
             'allProductsJSON',
             JSON.stringify (allProducts)
           );
           // Uppdatera kundkorgen
-          updateCartCount();
-          loadCart();
+          updateCartCount ();
+          loadCart ();
         };
 
         img.style.height = '30px';
@@ -98,69 +103,118 @@ function loadCart () {
         div.appendChild (img);
         div.appendChild (title);
         div.appendChild (price);
-        actionDiv.appendChild (quantityInput); // Lägg till kvantitetsinputen till actionDiv
-        actionDiv.appendChild (closeButton); // Lägg till "X"-knappen till actionDiv
+        actionDiv.appendChild (quantityInput);
+        actionDiv.appendChild (closeButton);
         outerDiv.appendChild (div);
         outerDiv.appendChild (actionDiv);
         dropdownData.appendChild (outerDiv);
 
         totalPrice += product.price * product.quantity;
       });
-      let totalElement = document.createElement ('li');
-      totalElement.textContent = 'Total: $' + totalPrice.toFixed (2);
-      totalElement.style.fontWeight = 'bold';
-      totalElement.style.marginLeft = '10px';
-      dropdownData.appendChild(totalElement);
+
+      let checkOut = document.createElement ('button');
+      let removeAllItems = document.createElement ('button');
+      let innerDiv = document.createElement ('div');
+      let checkOutDiv = document.createElement ('div');
+
+      innerDiv.style.display = 'flex';
+      innerDiv.style.justifyContent = 'space-between';
+
+      checkOut.textContent = 'Checkout';
+      checkOut.className = 'btn btn-outline-dark mt-auto col-8';
+      checkOut.style.fontSize = '1em';
+      checkOut.style.marginLeft = '40px';
+      checkOutDiv.style.marginTop = '20px';
+
+      checkOutDiv.appendChild (checkOut);
+
+      checkOut.addEventListener ('click', function (event) {
+        event.preventDefault ();
+        openCheckout ();
+        event.stopPropagation ();
+      });
+
+      removeAllItems.textContent = 'Empty cart';
+      removeAllItems.style.scale = '0.65';
+      removeAllItems.className = 'btn btn-secondary btn-sm col-6';
+      removeAllItems.style.marginLeft = '85px';
+
+      removeAllItems.addEventListener ('click', function (event) {
+        event.preventDefault ();
+        console.log ('removeAllItems');
+        localStorage.clear();
+        allProducts = [];
+        updateCartCount ();
+        loadCart ();
+        toggleCart ();
+        toggleCart ();
+
+        event.stopPropagation ();
+      });
+
+      let totalPriceElement = document.createElement ('li');
+      totalPriceElement.textContent = 'Total: $' + totalPrice.toFixed (2);
+      totalPriceElement.style.fontWeight = 'bold';
+      totalPriceElement.style.marginLeft = '20px';
+      totalPriceElement.style.marginTop = '15px';
+
+      checkOutDiv.appendChild(removeAllItems);
+      innerDiv.appendChild (totalPriceElement);
+      innerDiv.appendChild (checkOutDiv);
+
+
+      dropdownData.appendChild (innerDiv);
     }
   }
 }
 
 function toggleCart () {
   let dropdownData = document.querySelector ('#dropdownData');
-  console.log (dropdownData);
-  console.log("Toggle Cart")
   if (allProducts.length > 0 && dropdownData.style.display !== 'block') {
-    console.log ('Toggle Cart');
     dropdownData.style.display = 'block';
     dropdownData.scrollTop = dropdownData.scrollHeight;
-  } 
-  else {
+  } else {
     dropdownData.style.display = 'none';
-    console.log ('Hide Cart');
   }
 }
 
 let cartButton = document.querySelector ('#cartDropdown');
-cartButton.addEventListener('click', function(event) {
-    toggleCart();
-    event.stopPropagation();  // Förhindra eventet från att bubbla upp till dokumentet
+cartButton.addEventListener ('click', function (event) {
+  toggleCart ();
+  event.stopPropagation (); // Förhindra eventet från att bubbla upp till dokumentet
 });
 
-function updateCartCount() {
-    let totalQuantity = allProducts.reduce((sum, product) => sum + product.quantity, 0);
-    let row = document.querySelector('#productLength');
-    row.textContent = totalQuantity;
+function updateCartCount () {
+  let totalQuantity = allProducts.reduce (
+    (sum, product) => sum + product.quantity,
+    0
+  );
+  let row = document.querySelector ('#productLength');
+  row.textContent = totalQuantity;
 }
 
-$ (document).click (function () {
-});
+//$ (document).click (function () {});
 
 function removeItem (product) {
   return function () {
     let index = allProducts.indexOf (product);
     allProducts.splice (index, 1);
     localStorage.setItem ('allProductsJSON', JSON.stringify (allProducts));
-    updateCartCount();
-    loadCart();
-    toggleCart();
-    toggleCart();
+    updateCartCount ();
+    loadCart ();
+    toggleCart ();
+    toggleCart ();
     if (product.quantity >= 1) {
-        toggleCart();
-        toggleCart();
+      toggleCart ();
+      toggleCart ();
     }
   };
 }
 
+function openCheckout () {
+  window.open ('cart.html', '_self');
+}
+
 window.addEventListener ('load', function () {
-  loadCart();
+  loadCart ();
 });
