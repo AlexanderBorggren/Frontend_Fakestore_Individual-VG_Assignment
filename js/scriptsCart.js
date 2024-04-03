@@ -3,54 +3,79 @@ window.addEventListener('load', function() {
     let allProducts = JSON.parse(localStorage.getItem('allProductsJSON'));
 
     // Skapa ett element för att visa den totala summan
-    let totalPrice = 0;
+    let totalPriceSum = 0;
+    let totalProductsCount = 0;
 
     // Iterera över alla produkter
-    allProducts.forEach(function(product) {
-        // Skapa nya element för att visa produktinformation
+    allProducts.forEach(selectedProduct => {
+        totalProductsCount += selectedProduct.quantity;
+        let productTotalPrice = selectedProduct.price * selectedProduct.quantity;
+        totalPriceSum += productTotalPrice;
+        console.log(totalProductsCount);
+    
         let linkA = document.createElement('a');
         let productImage = document.createElement('img');
         let title = document.createElement('p');
         let price = document.createElement('span');
-
+        let quantity = document.createElement('span');
+        let productTotal = document.createElement('span');
+        let br = this.document.createElement('br');
+    
+        title.style.marginLeft = "20px";
+        title.style.fontWeight = "bold";
+        title.style.fontSize = "16px";
+        price.setAttribute("class", "price");
         linkA.setAttribute("href", "#");
-        productImage.setAttribute("src", product.image);
+        productImage.setAttribute("src", selectedProduct.image);
         productImage.style.height = '30px';
-        productImage.style.width = '30px'; 
+        productImage.style.width = '30px';
         productImage.style.objectFit = 'cover';
         productImage.style.float = 'left';
         productImage.style.marginRight = "10px";
-
-        // Ange textinnehållet för de nya elementen
-        title.textContent = product.title;
-        price.textContent = '$' + product.price;
-
-        // Lägg till de nya elementen i dokumentet
-        let row = document.querySelector('#start-list');
-        row.appendChild(productImage);
-        row.appendChild(title);
+    
+        title.textContent = selectedProduct.title;
+        price.textContent = '$' + productTotalPrice.toFixed(2); 
+        quantity.textContent = selectedProduct.quantity + 'x';
+        quantity.style.fontSize = '12px';
+        quantity.style.fontWeight = 'bold';
+        productTotal.textContent = '$' + selectedProduct.price.toFixed(2);
+        productTotal.style.fontSize = '12px';
+        productTotal.style.fontWeight = 'normal';
+        price.style.fontSize = '14px';
+    
+        let row2 = document.querySelector('#start-list');
+        row2.appendChild(productImage);
+        row2.appendChild(title);
         title.appendChild(linkA);
+        title.appendChild(br);
         title.appendChild(price);
+        row2.appendChild(quantity);
+        title.appendChild(productTotal);
 
-        // Lägg till produktens pris till den totala summan
-        totalPrice += product.price;
+        let hr = document.createElement('hr');
+        row2.appendChild(hr);
     });
 
-    // Skapa nya element för att visa den totala summan
-    let totalPriceElement = document.createElement('p');
+    let totalPrice = document.createElement('span');
+    let totalPriceTitle = document.createElement('p');
     let boldTotalPrice = document.createElement('b');
 
-    totalPriceElement.style.fontWeight = "bold";
-    totalPriceElement.style.fontSize = "22px";
-    totalPriceElement.style.marginBottom = "-1px";
-    totalPriceElement.textContent = 'Total: ';
+    totalPriceTitle.style.fontWeight = "bold";
+    totalPrice.className = 'price';
+    totalPrice.style.color = "black";
+    totalPriceTitle.style.fontSize = "22px";
+    totalPriceTitle.style.marginBottom = "-1px";
+    totalPrice.style.fontSize = "18px";
+    totalPriceTitle.textContent = 'Total';
+    boldTotalPrice.textContent = '$' + totalPriceSum.toFixed(2);
 
-    boldTotalPrice.textContent = '$' + totalPrice.toFixed(2);
-    boldTotalPrice.style.fontSize = "16px";
-    boldTotalPrice.style.color = "black";
+    let row2 = document.querySelector('#start-list');
+    row2.appendChild(totalPriceTitle);
+    totalPrice.appendChild(boldTotalPrice);
+    totalPriceTitle.appendChild(totalPrice);
 
-    // Lägg till de nya elementen i dokumentet
-    let row = document.querySelector('#product-list');
-    row.appendChild(totalPriceElement);
-    totalPriceElement.appendChild(boldTotalPrice);
+    let totalProductsCountElement = document.querySelector('#totalProductsCount');
+    let totalProductsCountText = document.createTextNode(totalProductsCount.toString());
+    totalProductsCountElement.textContent = totalProductsCountText.nodeValue;
 });
+
