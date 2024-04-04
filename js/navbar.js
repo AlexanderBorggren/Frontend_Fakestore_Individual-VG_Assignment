@@ -1,7 +1,7 @@
-window.onload = createNavbar();
+window.onload = createNavbar ();
 
-function createNavbar() {
-    let navbar = `
+function createNavbar () {
+  let navbar = `
         <nav class="navbar navbar-expand-lg navbar-light bg-light" id=theNavBar>
             <div class="container px-4 px-lg-5">
                 <a class="navbar-brand">Fake store</a>
@@ -28,8 +28,5 @@ function createNavbar() {
         </nav>
     `;
 
-    document.body.insertAdjacentHTML('afterbegin', navbar);
-
+  document.body.insertAdjacentHTML ('afterbegin', navbar);
 }
-
-

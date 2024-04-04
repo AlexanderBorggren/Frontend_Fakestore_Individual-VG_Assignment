@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Fake Store</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <script defer src="js/formScript.js"> </script>
-        <link href="css/styles.css" rel="stylesheet" />
-        <link href="css/cartstyles.css" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        
-    </head>
-    <body>
-        <!-- Header-->
-        
-        <header class="bg-dark py-5" style="background-image: url('assets/header.png'); background-size: cover; color: white; padding: 5rem;">
-            <div class="container px-4 px-lg-5 my-5">
-                <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Fake Store</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">By</p>
-                    <p class="lead fw-normal text-white-50 mb-0">Alexander Borggren</p>               
-                  </div>
-            </div>
-        </header>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
-            <!--About content goes here-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>Fake Store</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <!-- Bootstrap icons-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <script defer src="js/formScript.js"> </script>
+  <link href="css/styles.css" rel="stylesheet" />
+  <link href="css/cartstyles.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+  <!-- Header-->
+
+  <header class="bg-dark py-5"
+    style="background-image: url('assets/header.png'); background-size: cover; color: white; padding: 5rem;">
+    <div class="container px-4 px-lg-5 my-5">
+      <div class="text-center text-white">
+        <h1 class="display-4 fw-bolder">Fake Store</h1>
+        <p class="lead fw-normal text-white-50 mb-0">By</p>
+        <p class="lead fw-normal text-white-50 mb-0">Alexander Borggren</p>
+      </div>
+    </div>
+  </header>
+  <!-- Section-->
+  <section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+      <!--About content goes here-->
 
 
-            <div class="row">
+      <div class="row">
+        <div class="col-12">
+          <div class="container-cart">
+            <form id="cartForm">
+
+              <div class="row">
                 <div class="col-12">
-                  <div class="container-cart">
-                    <form id="cartForm">
-                        
-                      <div class="row">
-                        <div class="col-12">
-                          <h3>Order Confirmation</h3>
-                          <div id="orderConfirmation"></div>
-                          <!-- Inject order info-->
-                          <div class="col-12">
+                  <h3>Order Confirmation</h3>
+                  <div id="orderConfirmation"></div>
+                  <!-- Inject order info-->
+                  <div class="col-12">
                     <div class="container-cart">
                       <h4 id="product-list">Items
                         <span class="price" style="color:black">
@@ -54,27 +57,30 @@
                         </span>
                       </h4>
                       <div id="start-list" class="col-12"></div>
-                      
+
                     </div>
                   </div>
                 </div>
 
-           </div>
-        </section>
+              </div>
+  </section>
 
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Fake Store 2024</p></div>
-        </footer>
-        <!-- Core theme JS-->
+  <!-- Footer-->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Fake Store 2024</p>
+    </div>
+  </footer>
+  <!-- Core theme JS-->
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scriptsConfirmation.js"></script>
-        <script src="js/navbar.js"></script>
-        <script src="js/scripts.js"></script>
-        
-        
-    </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- Core theme JS-->
+  <script src="js/scriptsConfirmation.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/scripts.js"></script>
+
+
+</body>
+
 </html>
