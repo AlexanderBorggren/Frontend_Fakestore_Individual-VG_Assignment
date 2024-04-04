@@ -23,19 +23,21 @@ window.addEventListener('load', function() {
         price.setAttribute("class", "price");
         linkA.setAttribute("href", "#");
         productImage.setAttribute("src", selectedProduct.image);
-        productImage.style.height = '30px';
-        productImage.style.width = '30px';
+        productImage.style.height = '90px';
+        productImage.style.width = '90px';
         productImage.style.objectFit = 'cover';
         productImage.style.float = 'left';
         productImage.style.marginRight = "10px";
     
         title.textContent = selectedProduct.title;
         price.textContent = '$' + productTotalPrice.toFixed(2); 
-        quantityInput.style.fontSize = '16px';
+        quantityInput.style.fontSize = '14px';
         quantityInput.type = 'number';
         quantityInput.min = '1';
         quantityInput.value = selectedProduct.quantity;
         quantityInput.className = 'quantity-input';
+        quantityInput.style.height = '30px';
+        quantityInput.style.width = '45px';
 
         quantityInput.onchange = function () {
             // Uppdatera kvantiteten av produkten i allProducts array
@@ -49,9 +51,10 @@ window.addEventListener('load', function() {
               JSON.stringify (allProducts)
             );
             // Uppdatera kundkorgen
+            updateCart();
             updateCartCount();
             loadCart();
-            updateCart();
+            
           };
 
         productTotal.textContent = '$' + selectedProduct.price.toFixed(2);
@@ -73,13 +76,14 @@ window.addEventListener('load', function() {
         row2.appendChild(hr);
 
         function updateCart() {
+            let allProducts = JSON.parse(localStorage.getItem('allProductsJSON'));
             // Uppdatera totalpriset och produktantalet
             totalPriceSum = allProducts.reduce((sum, product) => sum + product.price * product.quantity, 0);
             totalProductsCount = allProducts.reduce((sum, product) => sum + product.quantity, 0);
             boldTotalPrice.textContent = '$' + totalPriceSum.toFixed(2);
             totalProductsCountElement.textContent = totalProductsCount.toString();
             price.textContent = '$' + (selectedProduct.price * selectedProduct.quantity).toFixed(2);
-    
+
         };
 
         function removeItem(productToRemove) {
@@ -115,5 +119,4 @@ window.addEventListener('load', function() {
     totalProductsCountElement.textContent = totalProductsCountText.nodeValue;
     
 });
-
 

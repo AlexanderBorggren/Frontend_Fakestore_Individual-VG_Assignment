@@ -1,9 +1,9 @@
-//window.localStorage.clear();
 let allProducts = JSON.parse (localStorage.allProductsJSON || '[]');
 let row = document.querySelector ('#productLength');
 row.textContent = allProducts.length;
 
 function addToCart (product, quantity) {
+  let allProducts = JSON.parse(localStorage.getItem('allProductsJSON') || '[]');
   let existingProduct = allProducts.find (p => p.id === product.id);
   if (existingProduct) {
     // Om produkten redan finns i kundkorgen, öka kvantiteten
@@ -32,14 +32,15 @@ function addToCart (product, quantity) {
     navbarToggler.click ();
     setTimeout (function () {
       navbarToggler.click ();
-    }, 1000);
+    }, 500);
   }
   dropdownData.scrollTop = dropdownData.scrollHeight;
 }
 
 function loadCart () {
-  if (allProducts.length > 0) {
-    let dropdownData = document.querySelector ('#dropdownData');
+  let allProducts = JSON.parse(localStorage.getItem('allProductsJSON') || '[]');
+
+  let dropdownData = document.querySelector ('#dropdownData');
     if (dropdownData) {
       // Rensa dropdownData innan du lägger till nya produkter
       dropdownData.innerHTML = '';
@@ -52,6 +53,7 @@ function loadCart () {
         let img = document.createElement ('img');
         let title = document.createElement ('h4');
         let price = document.createElement ('p');
+        let totalPriceSelectedProduct = document.createElement ('p');
         let closeButton = document.createElement ('img');
         let quantityInput = document.createElement ('input');
         let actionDiv = document.createElement ('div');
@@ -60,24 +62,25 @@ function loadCart () {
         outerDiv.className = 'outer-div col-12';
         div.className = 'dropdown-item col-10 d-fixed';
         img.src = product.image;
-        title.textContent = product.title.length > 35
-          ? product.title.substring (0, 35) + '...'
+        title.textContent = product.title.length > 30
+          ? product.title.substring (0, 33) + '...'
           : product.title;
-        price.textContent =
-          '$' +
-          product.price +
-          '    x ' +
-          product.quantity +
-          '  =  $' +
-          product.quantity * product.price;
+        price.textContent ='$' + product.price
+        totalPriceSelectedProduct.textContent = '$'+(product.quantity * product.price).toFixed(2);
+        totalPriceSelectedProduct.style.fontSize = '14px';
         closeButton.src = 'assets/close.svg';
         closeButton.className = 'close-button';
-        closeButton.onclick = removeItem (product);
         quantityInput.type = 'number';
         quantityInput.min = '1';
         quantityInput.value = product.quantity;
         quantityInput.className = 'quantity-input';
+        quantityInput.style.height = '50px';
+        quantityInput.style.width = '50px';
         actionDiv.className = 'action-div d-flex flex-column align-items-end';
+
+        closeButton.addEventListener ('click', function (event) {
+          removeItem(product);
+        });
 
         quantityInput.onchange = function () {
           // Uppdatera kvantiteten av produkten i allProducts array
@@ -91,7 +94,7 @@ function loadCart () {
             JSON.stringify (allProducts)
           );
           // Uppdatera kundkorgen
-          updateCartCount ();
+          updateCartCount();
           loadCart ();
         };
 
@@ -103,6 +106,7 @@ function loadCart () {
         div.appendChild (img);
         div.appendChild (title);
         div.appendChild (price);
+        div.appendChild (totalPriceSelectedProduct);
         actionDiv.appendChild (quantityInput);
         actionDiv.appendChild (closeButton);
         outerDiv.appendChild (div);
@@ -141,14 +145,12 @@ function loadCart () {
 
       removeAllItems.addEventListener ('click', function (event) {
         event.preventDefault ();
-        console.log ('removeAllItems');
         localStorage.clear();
         allProducts = [];
         updateCartCount ();
         loadCart ();
         toggleCart ();
         toggleCart ();
-
         event.stopPropagation ();
       });
 
@@ -157,6 +159,7 @@ function loadCart () {
       totalPriceElement.style.fontWeight = 'bold';
       totalPriceElement.style.marginLeft = '20px';
       totalPriceElement.style.marginTop = '15px';
+      totalPriceElement.style.fontSize = '18px';
 
       checkOutDiv.appendChild(removeAllItems);
       innerDiv.appendChild (totalPriceElement);
@@ -164,11 +167,13 @@ function loadCart () {
 
 
       dropdownData.appendChild (innerDiv);
+
     }
-  }
-}
+    }
+  
 
 function toggleCart () {
+  let allProducts = JSON.parse(localStorage.getItem('allProductsJSON') || '[]');
   let dropdownData = document.querySelector ('#dropdownData');
   if (allProducts.length > 0 && dropdownData.style.display !== 'block') {
     dropdownData.style.display = 'block';
@@ -181,10 +186,10 @@ function toggleCart () {
 let cartButton = document.querySelector ('#cartDropdown');
 cartButton.addEventListener ('click', function (event) {
   toggleCart ();
-  event.stopPropagation (); // Förhindra eventet från att bubbla upp till dokumentet
 });
 
 function updateCartCount () {
+  let allProducts = JSON.parse(localStorage.getItem('allProductsJSON') || '[]');
   let totalQuantity = allProducts.reduce (
     (sum, product) => sum + product.quantity,
     0
@@ -193,28 +198,27 @@ function updateCartCount () {
   row.textContent = totalQuantity;
 }
 
-//$ (document).click (function () {});
-
 function removeItem (product) {
-  return function () {
-    let index = allProducts.indexOf (product);
-    allProducts.splice (index, 1);
-    localStorage.setItem ('allProductsJSON', JSON.stringify (allProducts));
-    updateCartCount ();
-    loadCart ();
-    toggleCart ();
-    toggleCart ();
-    if (product.quantity >= 1) {
-      toggleCart ();
-      toggleCart ();
-    }
-  };
+  let allProducts = JSON.parse(localStorage.getItem('allProductsJSON') || '[]');
+  allProducts = allProducts.filter(p => p.id !== product.id);
+  localStorage.setItem ('allProductsJSON', JSON.stringify (allProducts));
+  updateCartCount();
+  loadCart ();
+  toggleCart ();
+  if (product.quantity >= 1) {
+    toggleCart();
+  }
 }
+
+
 
 function openCheckout () {
   window.open ('cart.html', '_self');
 }
 
 window.addEventListener ('load', function () {
-  loadCart ();
+  updateCartCount();
+  loadCart();
 });
+
+

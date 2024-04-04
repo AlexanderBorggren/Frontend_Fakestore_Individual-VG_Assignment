@@ -1,6 +1,7 @@
 window.addEventListener('load', function() {
 
     let orderedProducts = JSON.parse(localStorage.getItem('allProductsJSON'));
+    this.localStorage.clear();
 
     let orderConfirmText = document.createElement('div');
     let ordernumber = document.createElement('b');
@@ -40,17 +41,18 @@ window.addEventListener('load', function() {
         price.setAttribute("class", "price");
         linkA.setAttribute("href", "#");
         productImage.setAttribute("src", selectedProduct.image);
-        productImage.style.height = '30px';
-        productImage.style.width = '30px';
+        productImage.style.height = '90px';
+        productImage.style.width = '90px';
         productImage.style.objectFit = 'cover';
         productImage.style.float = 'left';
         productImage.style.marginRight = "10px";
     
         title.textContent = selectedProduct.title;
         price.textContent = '$' + productTotalPrice.toFixed(2); 
-        quantity.textContent = selectedProduct.quantity + 'x';
-        quantity.style.fontSize = '12px';
-        quantity.style.fontWeight = 'bold';
+        quantity.textContent = 'x' + selectedProduct.quantity;
+        quantity.style.fontSize = '10px';
+        quantity.style.color = 'gray';
+        //quantity.style.fontWeight = '';
         productTotal.textContent = '$' + selectedProduct.price.toFixed(2);
         productTotal.style.fontSize = '12px';
         productTotal.style.fontWeight = 'normal';
