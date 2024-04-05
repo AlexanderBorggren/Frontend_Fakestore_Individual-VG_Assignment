@@ -1,6 +1,16 @@
+window.addEventListener ('load', function () {
+  updateCartCount ();
+  loadCart ();
+});
+
 let allProducts = JSON.parse (localStorage.allProductsJSON || '[]');
 let row = document.querySelector ('#productLength');
 row.textContent = allProducts.length;
+
+let cartButton = document.querySelector ('#cartDropdown');
+cartButton.addEventListener ('click', function (event) {
+  toggleCart ();
+});
 
 function addToCart (product, quantity) {
   let allProducts = JSON.parse (
@@ -82,6 +92,10 @@ function loadCart () {
       quantityInput.style.height = '50px';
       quantityInput.style.width = '50px';
       actionDiv.className = 'action-div d-flex flex-column align-items-end';
+      img.style.height = '30px';
+      img.style.width = '30px';
+      title.style.fontSize = '10px';
+      price.style.fontSize = '10px';
 
       closeButton.addEventListener ('click', function (event) {
         removeItem (product);
@@ -99,11 +113,6 @@ function loadCart () {
         updateCartCount ();
         loadCart ();
       };
-
-      img.style.height = '30px';
-      img.style.width = '30px';
-      title.style.fontSize = '10px';
-      price.style.fontSize = '10px';
 
       div.appendChild (img);
       div.appendChild (title);
@@ -184,11 +193,6 @@ function toggleCart () {
   }
 }
 
-let cartButton = document.querySelector ('#cartDropdown');
-cartButton.addEventListener ('click', function (event) {
-  toggleCart ();
-});
-
 function updateCartCount () {
   let allProducts = JSON.parse (
     localStorage.getItem ('allProductsJSON') || '[]'
@@ -218,8 +222,3 @@ function removeItem (product) {
 function openCheckout () {
   window.open ('cart.html', '_self');
 }
-
-window.addEventListener ('load', function () {
-  updateCartCount ();
-  loadCart ();
-});
